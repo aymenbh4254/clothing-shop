@@ -3,102 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر بيع الأقمصة الرياضية</title>
+    <title>WORLD CHAT</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
             background: #f4f4f4;
-        }
-        header {
-            background: #004d99;
-            color: white;
-            padding: 15px;
-            font-size: 24px;
-        }
-        .container {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            padding: 20px;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
         }
-        .product {
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .login-container, .chat-container {
             background: white;
-            border: 1px solid #ddd;
-            margin: 10px;
-            padding: 10px;
-            width: 250px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
             text-align: center;
-            border-radius: 5px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
         }
-        .product img {
+        .input-field {
             width: 100%;
-            height: auto;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
-        .buy-button {
+        .login-button, .send-button {
             background: #28a745;
             color: white;
             border: none;
             padding: 10px;
-            cursor: pointer;
+            width: 100%;
             border-radius: 5px;
+            cursor: pointer;
         }
-        .buy-button:hover {
+        .login-button:hover, .send-button:hover {
             background: #218838;
         }
-        footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            margin-top: 20px;
+        .chat-container {
+            display: none;
         }
-        .contact {
-            padding: 20px;
-            text-align: center;
+        .messages {
+            border: 1px solid #ddd;
+            height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #fff;
+            text-align: left;
+        }
+        .message {
+            background: #dff0d8;
+            padding: 5px;
+            margin: 5px 0;
+            border-radius: 5px;
         }
     </style>
+    <script>
+        function joinChat() {
+            let name = document.getElementById("name").value;
+            if (name) {
+                document.getElementById("login-container").style.display = "none";
+                document.getElementById("chat-container").style.display = "block";
+                let messages = document.getElementById("messages");
+                let newMessage = document.createElement("div");
+                newMessage.className = "message";
+                newMessage.innerText = name + " انضم إلى الدردشة!";
+                messages.appendChild(newMessage);
+            }
+        }
+        function sendMessage() {
+            let messageInput = document.getElementById("message-input");
+            let messageText = messageInput.value;
+            if (messageText) {
+                let messages = document.getElementById("messages");
+                let newMessage = document.createElement("div");
+                newMessage.className = "message";
+                newMessage.innerText = messageText;
+                messages.appendChild(newMessage);
+                messageInput.value = "";
+                messages.scrollTop = messages.scrollHeight;
+            }
+        }
+    </script>
 </head>
 <body>
-    <header>متجر الأقمصة الرياضية</header>
-    <div class="container">
-        <div class="product">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Raja_Casablanca_home_jersey.png/200px-Raja_Casablanca_home_jersey.png" alt="قميص الرجاء البيضاوي">
-            <h3>قميص الرجاء البيضاوي</h3>
-            <p>السعر: 299 درهم</p>
-            <button class="buy-button">أضف إلى السلة</button>
-        </div>
-        <div class="product">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Wydad_AC_home_jersey.png/200px-Wydad_AC_home_jersey.png" alt="قميص الوداد البيضاوي">
-            <h3>قميص الوداد البيضاوي</h3>
-            <p>السعر: 289 درهم</p>
-            <button class="buy-button">أضف إلى السلة</button>
-        </div>
-        <div class="product">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/FC_Barcelona_home_jersey.png/200px-FC_Barcelona_home_jersey.png" alt="قميص برشلونة">
-            <h3>قميص برشلونة</h3>
-            <p>السعر: 399 درهم</p>
-            <button class="buy-button">أضف إلى السلة</button>
-        </div>
-        <div class="product">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Real_Madrid_home_jersey.png/200px-Real_Madrid_home_jersey.png" alt="قميص ريال مدريد">
-            <h3>قميص ريال مدريد</h3>
-            <p>السعر: 419 درهم</p>
-            <button class="buy-button">أضف إلى السلة</button>
-        </div>
+    <div class="header">WORLD CHAT</div>
+    <div id="login-container" class="login-container">
+        <h2>تسجيل الدخول</h2>
+        <form onsubmit="event.preventDefault(); joinChat();">
+            <select class="input-field" required>
+                <option value="">اختر دولتك</option>
+                <option value="Morocco">المغرب</option>
+                <option value="Egypt">مصر</option>
+                <option value="Saudi Arabia">السعودية</option>
+                <option value="United States">الولايات المتحدة</option>
+                <option value="France">فرنسا</option>
+                <option value="Germany">ألمانيا</option>
+                <option value="Japan">اليابان</option>
+                <option value="India">الهند</option>
+                <option value="Turkey">تركيا</option>
+                <option value="Brazil">البرازيل</option>
+            </select>
+            <input type="text" id="name" class="input-field" placeholder="الاسم" required>
+            <input type="text" class="input-field" placeholder="النسب" required>
+            <input type="number" class="input-field" placeholder="العمر" required>
+            <button type="submit" class="login-button">تسجيل الدخول</button>
+        </form>
     </div>
-    
-    <div class="contact">
-        <h2>تواصل معنا</h2>
-        <p>للطلبات والاستفسارات، اتصل بنا على: <strong>+212 600 123 456</strong></p>
-        <p>أو عبر البريد الإلكتروني: <strong>info@footballjerseyshop.com</strong></p>
+    <div id="chat-container" class="chat-container">
+        <h2>غرفة الدردشة</h2>
+        <div id="messages" class="messages"></div>
+        <input type="text" id="message-input" class="input-field" placeholder="اكتب رسالتك...">
+        <button onclick="sendMessage()" class="send-button">إرسال</button>
     </div>
-    
-    <footer>
-        &copy; 2025 جميع الحقوق محفوظة - متجر الأقمصة الرياضية
-    </footer>
 </body>
 </html>
