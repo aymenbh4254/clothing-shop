@@ -67,29 +67,41 @@
         }
     </style>
     <script>
+        let socket;
+
         function joinChat() {
             let name = document.getElementById("name").value;
             if (name) {
                 document.getElementById("login-container").style.display = "none";
                 document.getElementById("chat-container").style.display = "block";
-                let messages = document.getElementById("messages");
-                let newMessage = document.createElement("div");
-                newMessage.className = "message";
-                newMessage.innerText = name + " انضم إلى الدردشة!";
-                messages.appendChild(newMessage);
+                
+                socket = new WebSocket("wss://echo.websocket.org"); // سيرفر تجريبي للدردشة
+                
+                socket.onopen = function() {
+                    let messages = document.getElementById("messages");
+                    let newMessage = document.createElement("div");
+                    newMessage.className = "message";
+                    newMessage.innerText = name + " انضم إلى الدردشة!";
+                    messages.appendChild(newMessage);
+                    socket.send(name + " انضم إلى الدردشة!");
+                };
+                
+                socket.onmessage = function(event) {
+                    let messages = document.getElementById("messages");
+                    let newMessage = document.createElement("div");
+                    newMessage.className = "message";
+                    newMessage.innerText = event.data;
+                    messages.appendChild(newMessage);
+                };
             }
         }
+
         function sendMessage() {
             let messageInput = document.getElementById("message-input");
             let messageText = messageInput.value;
-            if (messageText) {
-                let messages = document.getElementById("messages");
-                let newMessage = document.createElement("div");
-                newMessage.className = "message";
-                newMessage.innerText = messageText;
-                messages.appendChild(newMessage);
+            if (messageText && socket) {
+                socket.send(messageText);
                 messageInput.value = "";
-                messages.scrollTop = messages.scrollHeight;
             }
         }
     </script>
